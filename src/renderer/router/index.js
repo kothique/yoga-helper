@@ -7,8 +7,22 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'landing-page',
-      component: require('@/components/LandingPage').default
+      redirect: { name: 'asanas' }
+    },
+    {
+      path: '/asanas',
+      name: 'asanas',
+      component: require('@/components/Asanas').default
+    },
+    {
+      path: '/cycles',
+      name: 'cycles',
+      component: require('@/components/Cycles').default
+    },
+    {
+      path: '/options',
+      name: 'options',
+      component: require('@/components/Options').default
     },
     {
       path: '*',

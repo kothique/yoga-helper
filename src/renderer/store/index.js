@@ -10,8 +10,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules,
   plugins: [
-    createPersistedState(),
-    createSharedMutations()
+    createPersistedState()
   ],
+  actions: {
+    $init(context, store) {
+      Object.keys(modules).forEach(module => store.dispatch(module + '/$init', store))
+    }
+  },
   strict: process.env.NODE_ENV !== 'production'
 })
