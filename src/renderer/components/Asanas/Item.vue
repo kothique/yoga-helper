@@ -19,6 +19,7 @@
     },
     methods: {
       edit() {
+        this.$emit('edit')
       },
       remove(id) {
         this.$store.dispatch('asanas/removeItem', id)

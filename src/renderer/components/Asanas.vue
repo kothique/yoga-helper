@@ -1,31 +1,36 @@
 <template>
   <div id="page-asanas">
-    <Item v-for="asana of asanas" :key="asana.id"
-      :asana="asana" />
+    {{ editing }}
+    <template v-for="asana of asanas">
+      <Item v-if="!editing[asana.id]" :asana="asana" @edit="$set(editing, asana.id, true)"
+        :key="asana.id"/>
+      <FormEdit v-else @success="edit({ id: asana.id, ...$event })"
+        @cancel="$delete(editing, asana.id)" :key="asana.id"
+        :default=asana />
+    </template>
 
     <div id="controls-container" v-if="!adding">
       <Button @click.native="adding = true">create</Button>
     </div>
-    <FormCreate v-else @add="add($event)" @cancel="adding = false" />
+    <FormEdit v-else creation @success="add($event)" @cancel="adding = false" />
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import Item from '@/components/Asanas/Item'
-  import FormCreate from '@/components/Asanas/FormCreate'
+  import FormEdit from '@/components/Asanas/FormEdit'
   import Button from '@/components/Button'
 
   export default {
     components: {
       Item,
-      FormCreate,
+      FormEdit,
       Button
     },
     data: () => ({
       adding: false,
-      newName: '',
-      newDuration: ''
+      editing: {}
     }),
     computed: {
       ...mapState({
@@ -36,6 +41,11 @@
       add({ name, duration }) {
         this.$store.dispatch('asanas/newItem', { name, duration })
         this.adding = false
+      },
+      edit({ id, name, duration }) {
+        this.$store.dispatch('asanas/updateItem', { id, key: 'name', value: name })
+        this.$store.dispatch('asanas/updateItem', { id, key: 'duration', value: duration })
+        this.$delete(this.editing, id)
       }
     }
   }

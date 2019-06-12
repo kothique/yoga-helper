@@ -29,7 +29,7 @@ export default {
       context.commit('setItem', { id, name, duration })
       return id
     },
-    updateItem(context, id, key, value) {
+    updateItem(context, { id, key, value }) {
       context.commit('updateItem', { id, key, value })
     },
     removeItem(context, id) {
