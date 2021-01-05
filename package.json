@@ -51,7 +51,7 @@
     }
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "nedb-promises": "^3.0.5",
     "uuid": "^3.3.2",
     "vue": "^2.5.16",
